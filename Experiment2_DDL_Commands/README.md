@@ -104,124 +104,305 @@ CREATE TABLE Table_Name (
 ```
 
 **Question 1**
---
--- Paste Question 1 here
+~~~
+Create a new table named item with the following specifications and constraints:
+item_id as TEXT and as primary key.
+item_desc as TEXT.
+rate as INTEGER.
+icom_id as TEXT with a length of 4.
+icom_id is a foreign key referencing com_id in the company table.
+The foreign key should set NULL on updates and deletes.
+item_desc and rate should not accept NULL.
+For example:
 
+Test	Result
+INSERT INTO item VALUES("ITM5","Charlie Gold",700,"COM4");
+UPDATE company SET com_id='COM5' WHERE com_id='COM4';
+SELECT * FROM item;
+item_id     item_desc     rate        icom_id
+----------  ------------  ----------  ----------
+ITM5        Charlie Gold  700
+~~~
 ```sql
--- Paste your SQL code below for Question 1
+CREATE TABLE item(
+    item_id TEXT PRIMARY KEY,
+    item_desc TEXT,
+    rate INTEGER,
+    icom_id TEXT(4),
+    foreign Key (icom_id) REFERENCES company(com_id)
+    ON UPDATE SET NULL
+    ON DELETE SET NULL
+);
 ```
 
 **Output:**
 
-![Output1](output.png)
+<img width="1266" height="262" alt="image" src="https://github.com/user-attachments/assets/c34f7d7c-ea67-440d-af57-cb7ddd6ab505" />
+
 
 **Question 2**
----
--- Paste Question 2 here
+~~~
+Create a table named Customers with the following columns:
+
+CustomerID as INTEGER
+Name as TEXT
+Email as TEXT
+JoinDate as DATETIME
+For example:
+
+Test	Result
+pragma table_info('Customers');
+cid         name        type        notnull     dflt_value  pk
+----------  ----------  ----------  ----------  ----------  ----------
+0           CustomerID  INTEGER     0                       0
+1           Name        TEXT        0                       0
+2           Email       TEXT        0                       0
+3           JoinDate    DATETIME    0                       0
+~~~
 
 ```sql
--- Paste your SQL code below for Question 2
+CREATE TABLE Customers(
+    CustomerID INTEGER ,
+    Name TEXT  ,
+    Email TEXT ,
+    JoinDate DATETIME
+);
 ```
 
 **Output:**
 
-![Output2](output.png)
+<img width="1112" height="192" alt="image" src="https://github.com/user-attachments/assets/50b06d36-7f11-4e25-857c-b60bb22eb6ce" />
+
 
 **Question 3**
----
--- Paste Question 3 here
+~~~
+Create a table named Attendance with the following constraints:
+AttendanceID as INTEGER should be the primary key.
+EmployeeID as INTEGER should be a foreign key referencing Employees(EmployeeID).
+AttendanceDate as DATE.
+Status as TEXT should be one of 'Present', 'Absent', 'Leave'.
+For example:
+
+Test	Result
+INSERT INTO Attendance (AttendanceID, EmployeeID, AttendanceDate, Status) VALUES (1, 1, '2024-08-01', 'Present');
+SELECT * FROM Attendance;
+AttendanceID  EmployeeID  AttendanceDate  Status
+------------  ----------  --------------  ----------
+1             1           2024-08-01      Present
+~~~
 
 ```sql
--- Paste your SQL code below for Question 3
+CREATE TABLE Attendance(
+    AttendanceID INTEGER primary key,
+    EmployeeID INTEGER,
+    AttendanceDate DATE,
+    Status TEXT CHECK(Status IN ('Present','Absent','Leave')),
+    foreign key (EmployeeID) references Employees(EmployeeID)
+);
 ```
 
 **Output:**
-
-![Output3](output.png)
+<img width="1103" height="146" alt="image" src="https://github.com/user-attachments/assets/7d8df64e-a5a6-4a2e-8c17-0fa8e9ed7cf1" />
 
 **Question 4**
----
--- Paste Question 4 here
+~~~
+Write an SQL command can to add a column named email of type TEXT to the customers table
+
+ 
+
+For example:
+
+Test	Result
+pragma table_info('Customers');
+cid         name        type        notnull     dflt_value  pk
+----------  ----------  ----------  ----------  ----------  ----------
+0           id          integer     0                       0
+1           name        text        0                       0
+2           email       TEXT        0                       0
+~~~
 
 ```sql
--- Paste your SQL code below for Question 4
+ALTER TABLE customers ADD COLUMN  email TEXT;
 ```
 
 **Output:**
+<img width="1277" height="271" alt="image" src="https://github.com/user-attachments/assets/5043891f-0bf1-430c-8581-47448b3c4613" />
 
-![Output4](output.png)
 
 **Question 5**
----
--- Paste Question 5 here
+~~~
+Write an SQL query to add a new column email of type TEXT to the Student_details table, and ensure that this column cannot contain NULL values and make default value as 'Invalid'
+
+ 
+
+ 
+
+For example:
+
+Test	Result
+INSERT INTO Student_details (RollNo, Name, Gender, Subject, email) 
+VALUES (1, 'John Doe', 'M', 'Math', 'john@example.com');
+select * from Student_details;
+RollN  Name   Gen  Subject     email
+-----  -----  ---  ----------  ----------------
+1      John   M    Math        john@example.com
+~~~
 
 ```sql
--- Paste your SQL code below for Question 5
+ALTER TABLE 'Student_details'ADD COLUMN email  TEXT NOT NULL DEFAULT 'Invalid';
 ```
 
 **Output:**
+<img width="1127" height="168" alt="image" src="https://github.com/user-attachments/assets/14d9507d-ad26-46ff-bf87-3287a65cad7c" />
 
-![Output5](output.png)
 
 **Question 6**
----
--- Paste Question 6 here
+~~~
+Insert the below data into the Employee table, allowing the Department and Salary columns to take their default values.
+
+EmployeeID  Name         Position
+----------  -----------  ----------
+4           Emily White  Analyst
+
+Note: The Department and Salary columns will use their default values.    
+For example:
+
+Test	Result
+SELECT EmployeeID, Name, Position 
+FROM Employee;
+EmployeeID  Name         Position
+----------  -----------  ----------
+4           Emily White  Analyst
+~~~
 
 ```sql
--- Paste your SQL code below for Question 6
+INSERT INTO Employee (EmployeeID,Name,Position)
+VALUES(4,'Emily White','Analyst');
 ```
 
 **Output:**
+<img width="1021" height="314" alt="image" src="https://github.com/user-attachments/assets/2552e10b-97b8-4413-854e-3d5c8fdfc34c" />
 
-![Output6](output.png)
 
 **Question 7**
----
--- Paste Question 7 here
+~~~
+Create a table named ProjectAssignments with the following constraints:
+AssignmentID as INTEGER should be the primary key.
+EmployeeID as INTEGER should be a foreign key referencing Employees(EmployeeID).
+ProjectID as INTEGER should be a foreign key referencing Projects(ProjectID).
+AssignmentDate as DATE should be NOT NULL.
+For example:
+
+Test	Result
+INSERT INTO ProjectAssignments (AssignmentID, EmployeeID, ProjectID, AssignmentDate) VALUES (2, 99, 1, '2024-01-03');
+Error: FOREIGN KEY constraint failed
+~~~
 
 ```sql
--- Paste your SQL code below for Question 7
+CREATE TABLE ProjectAssignments(
+    AssignmentID INTEGER primary key,
+    EmployeeID INTEGER,
+    ProjectID INTEGER ,
+    AssignmentDate DATE NOT NULL,
+    foreign key (EmployeeID) REFERENCES Employees(EmployeeID),
+    Foreign key (ProjectID) REFERENCES Projects(projectID)
+);
 ```
 
 **Output:**
+<img width="1134" height="147" alt="image" src="https://github.com/user-attachments/assets/26b7a499-4805-4ad6-a833-4053fb338bcf" />
 
-![Output7](output.png)
 
 **Question 8**
----
--- Paste Question 8 here
+~~~
+Insert all books from Out_of_print_books into Books
+
+Table attributes are ISBN, Title, Author, Publisher, YearPublished
+
+For example:
+
+Test	Result
+select * from Books;
+ISBN            Title           Author              Publisher      YearPublished
+--------------  --------------  ------------------  -------------  -------------
+978-1234567890  The Lost World  Arthur Conan Doyle  Vintage Books  1912
+978-0987654321  Gone with the   Margaret Mitchell   Macmillan      1936
+978-1122334455  Moby Dick       Herman Melville     Harper & Brot  1851
+~~~
 
 ```sql
--- Paste your SQL code below for Question 8
+INSERT INTO Books(ISBN, Title, Author, Publisher, YearPublished)
+SELECT ISBN, Title, Author, Publisher, YearPublished FROM Out_of_print_books;
 ```
 
 **Output:**
 
-![Output8](output.png)
+<img width="1130" height="208" alt="image" src="https://github.com/user-attachments/assets/4d762ca9-fd22-42f2-b00f-c49d0550d1f8" />
+
 
 **Question 9**
----
--- Paste Question 9 here
+~~~
+In the Student_details table, insert a student record where some fields are NULL, another record where all fields are filled without any NULL values, and a third record where some fields are filled, and others are left as NULL.
+
+RollNo      Name            Gender      Subject      MARKS
+----------  ------------    ----------  ----------   ----------
+205         Olivia Green    F
+207         Liam Smith      M           Mathematics  85
+208         Sophia Johnson  F           Science
+For example:
+
+Test	Result
+select * from Student_details;
+RollNo      Name          Gender      Subject     MARKS
+----------  ------------  ----------  ----------  ----------
+205         Olivia Green  F
+207         Liam Smith    M           Mathematic  85
+208         Sophia Johns  F           Science
+~~~
 
 ```sql
--- Paste your SQL code below for Question 9
+INSERT INTO Student_details(RollNo,Name,Gender,Subject,MARKS)
+    VALUES(205,'Olivia Green','F',NOT NULL,NOT NULL),
+        (207  ,'Liam Smith','M ','Mathematics', 85),
+        (208 ,'Sophia Johns',  'F','Science',NOT NULL);
 ```
 
 **Output:**
 
-![Output9](output.png)
+<img width="1134" height="201" alt="image" src="https://github.com/user-attachments/assets/b92c3f6d-bb98-43b4-95d2-e03a57cde41c" />
+
 
 **Question 10**
----
--- Paste Question 10 here
+~~~
+Create a new table named contacts with the following specifications:
+contact_id as INTEGER and primary key.
+first_name as TEXT and not NULL.
+last_name as TEXT and not NULL.
+email as TEXT.
+phone as TEXT and not NULL with a check constraint to ensure the length of phone is at least 10 characters.
+For example:
+
+Test	Result
+INSERT INTO contacts (contact_id, first_name, last_name, email, phone) VALUES (1, 'John', 'Doe', 'john.doe@example.com', '1234567890');
+SELECT * FROM contacts;
+contact_id  first_name  last_name   email                 phone
+----------  ----------  ----------  --------------------  ----------
+1           John        Doe         john.doe@example.com  1234567890
+~~~
 
 ```sql
--- Paste your SQL code below for Question 10
+CREATE TABLE contacts(
+    contact_id INTEGER primary key,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    email TEXT,
+    phone TEXT NOT NULL CHECK(LENGTH(Phone)>=10)
+);
 ```
 
 **Output:**
+<img width="1137" height="132" alt="image" src="https://github.com/user-attachments/assets/1f33225d-7b42-4513-8c10-b1e8dbf83af7" />
 
-![Output10](output.png)
 
 
 ## RESULT
